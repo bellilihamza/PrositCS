@@ -72,4 +72,25 @@ public class Produit {
                 ", dateExpiration=" + dateExpiration +
                 '}';
     }
+
+    public boolean comparer(Produit autreProduit) {
+        return this.id == autreProduit.id &&
+               this.libelle.equals(autreProduit.libelle) &&
+               this.prix == autreProduit.prix;
+    }
+
+    public static boolean comparer(Produit produit1, Produit produit2) {
+        return produit1.id == produit2.id &&
+               produit1.libelle.equals(produit2.libelle) &&
+               produit1.prix == produit2.prix;
+    }
+
+    public static boolean chercherProduit(Produit[] magasin, Produit produitRecherche) {
+        for (Produit produit : magasin) {
+            if (produit != null && produit.comparer(produitRecherche)) {
+                return true;
+            }
+        }
+        return false;
+    }
 }
