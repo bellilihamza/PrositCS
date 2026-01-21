@@ -1,0 +1,76 @@
+import java.util.ArrayList;
+
+public class Magasin {
+    private int id;
+    private String nom;
+    private String adresse;
+    private final int capaciteEmployes = 20;
+    private ArrayList<Produit> produits = new ArrayList<>();
+    private ArrayList<Employe> employes = new ArrayList<>();
+
+    public Magasin(int id, String nom, String adresse) {
+        this.id = id;
+        this.nom = nom;
+        this.adresse = adresse;
+    }
+
+    public int getId() { return id; }
+    public String getNom() { return nom; }
+    public String getAdresse() { return adresse; }
+    public int getCapaciteEmployes() { return capaciteEmployes; }
+
+    public boolean ajouterEmploye(Employe e) {
+        if (employes.size() >= capaciteEmployes) return false;
+        for (Employe ex : employes) {
+            if (ex.equals(e)) return false; 
+        }
+        employes.add(e);
+        return true;
+    }
+
+    public boolean ajouterProduit(Produit p) {
+        for (Produit prod : produits) {
+            if (prod.comparer(p)) return false;
+        }
+        produits.add(p);
+        return true;
+    }
+
+    public void afficherDetails() {
+        System.out.println("Magasin {id=" + id + ", nom='" + nom + "', adresse='" + adresse + "', capaciteEmployes=" + capaciteEmployes + "}");
+        System.out.println("Produits :");
+        for (Produit p : produits) System.out.println(" - " + p);
+        System.out.println("Employes :");
+        for (Employe e : employes) System.out.println(" - " + e);
+    }
+
+    public void afficherSalaries() {
+        System.out.println("Salaires pour le magasin '" + nom + "':");
+        for (Employe e : employes) {
+            System.out.println(e.getNom() + " (" + e.getClass().getSimpleName() + ") : " + e.calculerSalaire() + " DT");
+        }
+    }
+
+    public void afficherPrimesResponsables() {
+        System.out.println("Primes des responsables dans '" + nom + "':");
+        for (Employe e : employes) {
+            if (e instanceof Responsable) {
+                Responsable r = (Responsable) e;
+                System.out.println(r.getNom() + " prime = " + r.getPrime() + " DT");
+            }
+        }
+    }
+
+    public void afficherNombreParType() {
+        int caissiers=0, vendeurs=0, responsables=0;
+        for (Employe e : employes) {
+            if (e instanceof Caissier) caissiers++;
+            else if (e instanceof Vendeur) vendeurs++;
+            else if (e instanceof Responsable) responsables++;
+        }
+        System.out.println("Nombre par type dans '" + nom + "' : Caissiers=" + caissiers + ", Vendeurs=" + vendeurs + ", Responsables=" + responsables);
+    }
+
+    public ArrayList<Employe> getEmployes() { return employes; }
+    public ArrayList<Produit> getProduits() { return produits; }
+}
