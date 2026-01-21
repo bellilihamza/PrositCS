@@ -28,19 +28,48 @@ public class Main {
         m2.ajouterEmploye(v4);
         m2.ajouterEmploye(r2);
 
-        System.out.println("Caracteristiques des employés crees:");
+        System.out.println("Caracteristiques des employes crees:");
         System.out.println(c1);
         System.out.println(c2);
         System.out.println(v1);
  
 
-        m1.ajouterProduit(new Produit(1021, "Lait", "Delice", 0.700));
-        m1.ajouterProduit(new Produit(2510, "Yaourt", "Vitalait", 0.500));
-        m1.ajouterProduit(new Produit(4001, "Pain", "Boulangerie", 0.300));
+        try {
+            Produit p1 = new Produit(1021, "Lait", "Delice", 0.700);
+            m1.ajouterProduit(p1);
+            Produit p2 = new Produit(2510, "Yaourt", "Vitalait", 0.500);
+            m1.ajouterProduit(p2);
 
-        m2.ajouterProduit(new Produit(3250, "Tomate", "Sicam", 1.200));
-        m2.ajouterProduit(new Produit(5002, "Olive", "Naturel", 2.500));
-        m2.ajouterProduit(new Produit(1021, "Lait", "Delice", 0.700));
+            Produit p3 = new Produit(4001, "Pain", "Boulangerie", 0.300);
+            m1.ajouterProduit(p3);
+        } catch (PrixNegatifException ex) {
+            System.out.println("PrixNegatifException: " + ex.getMessage());
+        } catch (MagasinPleinException ex) {
+            System.out.println("MagasinPleinException lors de l'ajout dans m1: " + ex.getMessage());
+        }
+
+        try {
+            Produit q1 = new Produit(3250, "Tomate", "Sicam", 1.200);
+            m2.ajouterProduit(q1);
+            Produit q2 = new Produit(5002, "Olive", "Naturel", 2.500);
+            m2.ajouterProduit(q2);
+
+            Produit q3 = new Produit(1021, "Lait", "Delice", 0.700);
+            m2.ajouterProduit(q3);
+        } catch (PrixNegatifException ex) {
+            System.out.println("PrixNegatifException: " + ex.getMessage());
+        } catch (MagasinPleinException ex) {
+            System.out.println("MagasinPleinException lors de l'ajout dans m2: " + ex.getMessage());
+        }
+
+        try {
+            Produit neg = new Produit(9000, "ProduitNeg", "MarqueX", -5.0);
+            m1.ajouterProduit(neg);
+        } catch (PrixNegatifException ex) {
+            System.out.println("Exception prix negatif capturee: " + ex.getMessage());
+        } catch (MagasinPleinException ex) {
+            System.out.println("Magasin plein: " + ex.getMessage());
+        }
 
         System.out.println("\n--- Details Magasins ---");
         m1.afficherDetails();
@@ -57,7 +86,7 @@ public class Main {
         for (Employe e : m2.getEmployes()) System.out.println(" - " + e);
 
         System.out.println();
-        System.out.println("Salaires détaillés pour " + m1.getNom() + ":");
+        System.out.println("Salaires detailles pour " + m1.getNom() + ":");
         for (Employe e : m1.getEmployes()) System.out.println(e.getNom() + ": " + e.calculerSalaire() + " DT");
 
         System.out.println();

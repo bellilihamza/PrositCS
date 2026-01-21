@@ -5,7 +5,9 @@ public class Magasin {
     private String nom;
     private String adresse;
     private final int capaciteEmployes = 20;
-    private ArrayList<Produit> produits = new ArrayList<>();
+    // product array with capacity 2 as requested
+    private Produit[] produits = new Produit[2];
+    private int nbProduits = 0;
     private ArrayList<Employe> employes = new ArrayList<>();
 
     public Magasin(int id, String nom, String adresse) {
@@ -28,18 +30,23 @@ public class Magasin {
         return true;
     }
 
-    public boolean ajouterProduit(Produit p) {
-        for (Produit prod : produits) {
-            if (prod.comparer(p)) return false;
+    public void ajouterProduit(Produit p) throws MagasinPleinException {
+        // check duplicate
+        for (int i = 0; i < nbProduits; i++) {
+            Produit prod = produits[i];
+            if (prod != null && prod.comparer(p)) return;
         }
-        produits.add(p);
-        return true;
+        // if full, throw exception
+        if (nbProduits >= produits.length) {
+            throw new MagasinPleinException("Magasin '" + nom + "' est plein (capacité=" + produits.length + ")");
+        }
+        produits[nbProduits++] = p;
     }
 
     public void afficherDetails() {
         System.out.println("Magasin {id=" + id + ", nom='" + nom + "', adresse='" + adresse + "', capaciteEmployes=" + capaciteEmployes + "}");
         System.out.println("Produits :");
-        for (Produit p : produits) System.out.println(" - " + p);
+        for (int i = 0; i < nbProduits; i++) System.out.println(" - " + produits[i]);
         System.out.println("Employes :");
         for (Employe e : employes) System.out.println(" - " + e);
     }
@@ -72,5 +79,5 @@ public class Magasin {
     }
 
     public ArrayList<Employe> getEmployes() { return employes; }
-    public ArrayList<Produit> getProduits() { return produits; }
+    public Produit[] getProduits() { return produits; }
 }

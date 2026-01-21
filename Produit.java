@@ -10,11 +10,11 @@ public class Produit {
     public Produit() {
     }
 
-    public Produit(int id, String libelle, String marque, double prix) {
+    public Produit(int id, String libelle, String marque, double prix) throws PrixNegatifException {
         this.id = id;
         this.libelle = libelle;
         this.marque = marque;
-        this.prix = prix;
+        setPrix(prix);
     }
 
     public int getId() {
@@ -45,7 +45,8 @@ public class Produit {
         return prix;
     }
 
-    public void setPrix(double prix) {
+    public void setPrix(double prix) throws PrixNegatifException {
+        if (prix < 0) throw new PrixNegatifException("Prix négatif pour le produit id=" + id + ", prix=" + prix);
         this.prix = prix;
     }
 
